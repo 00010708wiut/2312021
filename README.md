@@ -1,11 +1,24 @@
-# Notes app
+# Notes web application
 
-## Front end workshop (finished)
+##### Description
+This web application allows users to add, edit, delete notes.
 
-Feel free to change project files and use as a basis for your coursework
+##### How to run app locally
+1.Download or clone the application code
+```bash
+git clone https://google.com
+```
+2.Install the dependencies
+```bash
+npm install
+```
+3.Run the application
+```bash
+node app.js
+```
+##### Dependencies
+- express.js
+- pug.js
 
-## Back end workshop (week 1)
-
-To do:
-  - get user data (create form page) and save to file
-  - show saved data to the user (note list page)
+##### Link to the source code 
+https://github.com/bunyodkh/2312021

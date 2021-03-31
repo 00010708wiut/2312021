@@ -63,8 +63,18 @@ app.get('/notes', (req, res) => {
 
 
 
-app.get('/notes/detail', (req, res) => {
-	res.render('detail')
+app.get('/notes/:id', (req, res) => {
+	const id = req.params.id
+
+	fs.readFile('./data/notes.json', (err, data) => {
+		if (err) throw err
+
+		const notes = JSON.parse(data)
+
+		const note = notes.filter(note => note.id == id)[0]
+
+		res.render('detail', { note: note })
+	})
 })
 
 

@@ -6,5 +6,5 @@ block content
 
     each value in notes
       div.note-wrapper
-        a.note(href=`/notes/detail`)= value.title
+        a.note(href=`/notes/${ value.id }`)= value.title
         a.delete(href='#') Delete
