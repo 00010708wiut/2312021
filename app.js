@@ -8,6 +8,8 @@ app.set('view engine', 'pug')
 app.use('/static', express.static('public'))
 app.use(express.urlencoded({ extended: false }))
 
+const db = './data/notes.json'
+
 app.get('/', (req, res) => {
 	res.render('home')
 })
@@ -26,7 +28,7 @@ app.post('/create', (req, res) => {
 	if (title.trim() === '' && description.trim() === '') {
 		res.render('create', { error: true })
 	} else {
-		fs.readFile('./data/notes.json', (err, data) => {
+		fs.readFile(db, (err, data) => {
 			if (err) throw err
 
 			const notes = JSON.parse(data)
@@ -39,7 +41,7 @@ app.post('/create', (req, res) => {
 
 			notes.push(newNote)
 
-			fs.writeFile('./data/notes.json', JSON.stringify(notes), err => {
+			fs.writeFile(db, JSON.stringify(notes), err => {
 				if (err) throw err
 
 				res.render('create', { success: true })
@@ -52,7 +54,7 @@ app.post('/create', (req, res) => {
 
 
 app.get('/notes', (req, res) => {
-	fs.readFile('./data/notes.json', (err, data) => {
+	fs.readFile(db, (err, data) => {
 		if (err) throw err
 
 		const notes = JSON.parse(data)
@@ -66,7 +68,7 @@ app.get('/notes', (req, res) => {
 app.get('/notes/:id', (req, res) => {
 	const id = req.params.id
 
-	fs.readFile('./data/notes.json', (err, data) => {
+	fs.readFile(db, (err, data) => {
 		if (err) throw err
 
 		const notes = JSON.parse(data)
@@ -76,6 +78,37 @@ app.get('/notes/:id', (req, res) => {
 		res.render('detail', { note: note })
 	})
 })
+
+
+app.get('/notes/:id/delete', (req, res) => {
+	const id = req.params.id
+
+	fs.readFile(db, (err, data) => {
+		if (err) throw err
+
+		const notes = JSON.parse(data)
+
+		const filteredNotes = notes.filter(note => note.id != id)
+
+		fs.writeFile(db, JSON.stringify(filteredNotes), err => {
+			if (err) throw err
+
+			res.render('notes', { id: id, notes: filteredNotes })
+		})
+	})
+})
+
+
+app.get('/api/v1/notes', (req, res) => {
+	fs.readFile(db, (err, data) => {
+		if (err) throw err
+
+		const notes = JSON.parse(data)
+
+		res.json(notes)
+	})
+})
+
 
 
 

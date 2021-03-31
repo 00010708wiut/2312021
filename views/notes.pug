@@ -4,7 +4,10 @@ block content
   main.content
     h1.note-title All notes
 
+    if id
+      p.success Note with id #{ id } is deleted! 
+
     each value in notes
       div.note-wrapper
         a.note(href=`/notes/${ value.id }`)= value.title
-        a.delete(href='#') Delete
+        a.delete(href=`/notes/${ value.id }/delete`) Delete
