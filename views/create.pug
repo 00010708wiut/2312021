@@ -1,0 +1,20 @@
+extends layout.pug
+
+block content
+  main.content
+    h1.form-title Create note form
+
+    if error
+      p.error Error occured. Try again!
+
+    if success
+      p.success Note is added! 
+
+    form.form(method='POST' action='/create')
+      label Title
+      input.input(type='text' name='title')
+
+      label Description
+      textarea.input(rows='10' cols='8' name='description')
+
+      button.btn Create new note
